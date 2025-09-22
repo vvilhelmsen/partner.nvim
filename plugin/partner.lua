@@ -7,9 +7,3 @@ end
 partner.setup({
 	storage_path = nil,
 })
-
--- Default keybinds
-vim.keymap.set('n', '<leader>pa', function() partner.add_or_arm() end,
-	{ desc = 'partner: add/arm pairing', silent = true })
-vim.keymap.set('n', '<leader>pp', function() partner.toggle() end,
-	{ desc = 'partner: toggle partner', silent = true })
