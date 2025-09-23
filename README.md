@@ -1,6 +1,6 @@
 # partner.nvim 🤠
 
-**partner.nvim** is a simple plugin that just does one thing: let you *pair* two files and instantly switch between them.
+**partner.nvim** is a simple plugin that just does one thing: let you pair files and switch between them.
 
 ---
 
@@ -45,3 +45,4 @@ return {
     require("partner").setup(opts)
   end,
 }
+
