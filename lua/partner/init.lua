@@ -57,11 +57,11 @@ local function save_pairs()
 	ensure_parent_dir(cfg.storage_path)
 	local ok, encoded = pcall(vim.json.encode, state.pairs)
 	if not ok then
-		return cfg.notify("Partner: failed to encode pairs.json", vim.log.levels.ERROR)
+		return cfg.notify("Failed to encode pairs.json", vim.log.levels.ERROR)
 	end
 	local write_ok = pcall(vim.fn.writefile, { encoded }, cfg.storage_path)
 	if not write_ok then
-		cfg.notify("Partner: failed to write pairs.json", vim.log.levels.ERROR)
+		cfg.notify("Failed to write pairs.json", vim.log.levels.ERROR)
 	end
 end
 
@@ -106,12 +106,12 @@ end
 function M.add_or_arm()
 	local here = abspath_current()
 	if not here then
-		return cfg.notify("Partner: Current buffer has no file path; save it first.", vim.log.levels.WARN)
+		return cfg.notify("Current buffer has no file path; save it first.", vim.log.levels.WARN)
 	end
 
 	if not state.awaiting then
 		state.awaiting = here
-		return cfg.notify("Partner: File armed.")
+		return cfg.notify("File armed.")
 	end
 
 	local first = state.awaiting
@@ -119,23 +119,23 @@ function M.add_or_arm()
 	local there = here
 
 	if first == there then
-		return cfg.notify("Partner: Same file; pairing ignored.", vim.log.levels.WARN)
+		return cfg.notify("Same file; pairing ignored.", vim.log.levels.WARN)
 	end
 
 	set_pair(first, there)
 	save_pairs()
-	cfg.notify(("Partner: %s and %s are now partners!"):format(short(first), short(there)))
+	cfg.notify(("%s and %s are now partners!"):format(short(first), short(there)))
 end
 
 function M.toggle()
 	local here = abspath_current()
 	if not here then
-		return cfg.notify("Partner: Unsaved buffer has no partner. Save first.", vim.log.levels.WARN)
+		return cfg.notify("Unsaved buffer has no partner. Save first.", vim.log.levels.WARN)
 	end
 
 	local there = state.pairs[here]
 	if not there then
-		return cfg.notify("Partner: No partner for this file.", vim.log.levels.WARN)
+		return cfg.notify("No partner for this file.", vim.log.levels.WARN)
 	end
 
 	jump_to(there)
