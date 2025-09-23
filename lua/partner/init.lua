@@ -2,10 +2,7 @@ local M = {}
 
 local defaults = {
 	storage_path = nil,
-	keymaps = {
-		add_or_arm = "<leader>pa",
-		toggle     = "<leader>pp",
-	},
+	keymaps = {},
 	notify = function(msg, level)
 		vim.notify("partner.nvim: " .. msg, level or vim.log.levels.INFO)
 	end,
@@ -13,7 +10,7 @@ local defaults = {
 
 local cfg = vim.deepcopy(defaults)
 local state = {
-	awaiting = nil, -- absolute path of the first file (armed)
+	awaiting = nil, -- abs path first file
 	pairs = {},    -- bidirectional map: abs_path -> partner_abs_path
 }
 
@@ -88,22 +85,22 @@ local function jump_to(path)
 end
 
 function M.setup(opts)
-  cfg = vim.tbl_deep_extend("force", defaults, opts or {})
-  if not cfg.storage_path then
-    local base = vim.fn.stdpath("data") .. "/partner.nvim"
-    vim.fn.mkdir(base, "p")
-    cfg.storage_path = base .. "/pairs.json"
-  end
-  load_pairs()
+	cfg = vim.tbl_deep_extend("force", defaults, opts or {})
+	if not cfg.storage_path then
+		local base = vim.fn.stdpath("data") .. "/partner.nvim"
+		vim.fn.mkdir(base, "p")
+		cfg.storage_path = base .. "/pairs.json"
+	end
+	load_pairs()
 
-  if cfg.keymaps.add_or_arm then
-    vim.keymap.set("n", cfg.keymaps.add_or_arm, M.add_or_arm,
-      { desc = "partner: add/arm pairing", silent = true })
-  end
-  if cfg.keymaps.toggle then
-    vim.keymap.set("n", cfg.keymaps.toggle, M.toggle,
-      { desc = "partner: toggle partner", silent = true })
-  end
+	if cfg.keymaps.add_or_arm then
+		vim.keymap.set("n", cfg.keymaps.add_or_arm, M.add_or_arm,
+			{ desc = "partner: add/arm pairing", silent = true })
+	end
+	if cfg.keymaps.toggle then
+		vim.keymap.set("n", cfg.keymaps.toggle, M.toggle,
+			{ desc = "partner: toggle partner", silent = true })
+	end
 end
 
 function M.add_or_arm()
