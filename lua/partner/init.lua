@@ -124,7 +124,15 @@ function M.add_or_arm()
 
 	set_pair(first, there)
 	save_pairs()
+	vim.cmd("redrawstatus!")
 	cfg.notify(("%s and %s are now partners!"):format(short(first), short(there)))
+end
+
+function M.statusline()
+	local here = abspath_current()
+	local there = here and state.pairs[here]
+	if type(there) ~= "string" or there == "" then return "" end
+	return "Partner: " .. short(there):gsub("%%", "%%%%")
 end
 
 function M.toggle()

@@ -45,4 +45,26 @@ return {
     require("partner").setup(opts)
   end,
 }
+```
 
+## Statusline
+
+Add `require("partner").statusline` to a section in your
+[lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) config:
+
+```lua
+require("lualine").setup({
+  sections = {
+    lualine_c = { "filename", require("partner").statusline },
+  },
+})
+```
+
+It shows `Partner: filename` and stays hidden when the current buffer has no
+partner.
+
+With Neovim's built-in statusline, include the expression in your format:
+
+```lua
+vim.opt.statusline = "%f %m %{%v:lua.require'partner'.statusline()%}%=%l:%c"
+```
